@@ -1,4 +1,5 @@
 import Thing from '../models/Thing.js';
+import fs from 'fs';
 
 class ControllerStuff {
     
@@ -56,20 +57,23 @@ class ControllerStuff {
      };
       
     deleteThing = (req, res, next) => {
-        Thing.deleteOne({_id: req.params.id}).then(
-          () => {
-            res.status(200).json({
-              message: 'Deleted!'
-            });
-          }
-        ).catch(
-          (error) => {
-            res.status(400).json({
-              error: error
-            });
-          }
-        );
-      };
+      Thing.findOne({ _id: req.params.id})
+          .then(thing => {
+              if (thing.userId != req.auth.userId) {
+                  res.status(401).json({message: 'Not authorized'});
+              } else {
+                  const filename = thing.imageUrl.split('/images/')[1];
+                  fs.unlink(`images/${filename}`, () => {
+                      Thing.deleteOne({_id: req.params.id})
+                          .then(() => { res.status(200).json({message: 'Objet supprimé !'})})
+                          .catch(error => res.status(401).json({ error }));
+                  });
+              }
+          })
+          .catch( error => {
+              res.status(500).json({ error });
+          });
+   };
       
       getAllStuff = (req, res, next) => {
         Thing.find().then(
