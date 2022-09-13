@@ -95,9 +95,5 @@ class ControllerStuff {
         );
       };
   }
-
-  const stuffCtrl = new ControllerStuff();
-
-
-
+const stuffCtrl = new ControllerStuff();
 export default stuffCtrl;
