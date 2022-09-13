@@ -1,6 +1,6 @@
 import express from 'express';
-import userCtrl from '../controllers/user.js';
 const router = express.Router();
+import userCtrl from '../controllers/user.js';
 
 router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
