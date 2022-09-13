@@ -1,5 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import stuffRoutes from './routes/stuff.js';
 import userRoutes from './routes/user.js';
 
@@ -19,6 +21,10 @@ app.use((req, res, next) => {
     next();
 });
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/stuff', stuffRoutes);
 app.use('/api/auth', userRoutes);
 
