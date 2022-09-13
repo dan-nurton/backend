@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import stuffRoutes from './routes/stuff.js';
-
+import userRoutes from './routes/user.js';
 
 const app = express();
 app.use(express.json());
@@ -20,5 +20,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/stuff', stuffRoutes);
+app.use('/api/auth', userRoutes);
 
 export default app;
