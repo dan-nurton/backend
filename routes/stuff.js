@@ -22,6 +22,20 @@ router.get('/',
     }
 );
 
+router.get('/:id',
+    async (req, res) => {
+        const {id} = req.params;
+        const result = await getOneThing(id);
+        if (result.data) {
+            res.status(200).json(result.data);
+        } else {
+            res.status(400).json({
+                error: result.error
+            });
+        }
+    }
+);
+
 router.delete('/:id', auth,
     async (req, res) => {
         const {id} = req.params;
@@ -38,7 +52,6 @@ router.delete('/:id', auth,
 );
 
 router.post('/', auth, multer, createThing);
-router.get('/:id', auth, getOneThing);
 router.put('/:id', auth, multer, modifyThing);
 
 export default router;

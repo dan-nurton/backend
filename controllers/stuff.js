@@ -17,21 +17,16 @@ import fs from 'fs';
       .catch(error => { res.status(400).json( { error })})
   };
       
-  const getOneThing = (req, res, next) => {
-        Thing.findOne({
-          _id: req.params.id
-        }).then(
-          (thing) => {
-            res.status(200).json(thing);
-          }
-        ).catch(
-          (error) => {
-            res.status(404).json({
-              error: error
-            });
-          }
-        );
-      };
+  const getOneThing = (id) => {
+    const result = { data: null, error: null };
+    return Thing.findOne({_id: id})
+      .then((data) => {
+          return {...result, data};
+        })
+      .catch(
+        (error) => {res.status(404).json({error: error});
+      });
+    };
       
     const modifyThing = (req, res, next) => {
       const thingObject = req.file ? {
