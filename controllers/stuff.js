@@ -57,7 +57,7 @@ import fs from 'fs';
               const filename = thing.imageUrl.split('/images/')[1];
               fs.unlink(`images/${filename}`, () => {
                   return Thing.deleteOne({_id: id})
-                      .then(() => {  return {...result, data:'mes couilles'}})
+                      .then(() => {  return {...result, data:'Error delete'}})
                       .catch((error) => ({...result, error}));
               });
               

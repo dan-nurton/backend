@@ -42,5 +42,4 @@ router.post('/', auth, multer, createThing);
 router.get('/:id', auth, getOneThing);
 router.put('/:id', auth, multer, modifyThing);
 
-
 export default router;
