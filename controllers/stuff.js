@@ -14,7 +14,7 @@ import fs from 'fs';
     
       thing.save()
       .then(() => { res.status(201).json({message: 'Objet enregistré !'})})
-      .catch(error => { res.status(400).json( { error })})
+      .catch((error) => { res.status(400).json( { error })})
   };
       
   const getOneThing = (id) => {
@@ -48,29 +48,24 @@ import fs from 'fs';
       
     const deleteThing = (id, userId) => {
       const result = { data: null, error: null };
-      return Thing.findOne({ _id: id, userId:userId}).then((thing) => {
-              const filename = thing.imageUrl.split('/images/')[1];
-              fs.unlink(`images/${filename}`, () => {
-                  return Thing.deleteOne({_id: id})
-                      .then(() => {  return {...result, data:'Error delete'}})
-                      .catch((error) => ({...result, error}));
+      return Thing.findOne({ _id: id, userId:userId})
+        .then((thing) => {
+            const filename = thing.imageUrl.split('/images/')[1];
+            fs.unlink(`images/${filename}`, () => {
+              return Thing.deleteOne({_id: id})
+                .then(() => {  return {...result, data:'Error delete'}})
+                .catch((error) => ({...result, error}));
               });
               
           })
           .catch((error) => ({...result, error}));
    };
       
-   const getAllStuff = () => {
-      const result = { data: null, error: null };
-      return Thing.find().then(
-          (data) => {
-            return {...result, data}
-          }
-        ).catch(
-          (error) => {
-            return {...result, error}
-          }
-        );
-      };
+  const getAllStuff = () => {
+    const result = { data: null, error: null };
+    return Thing.find()
+      .then((data) => {return {...result, data}})
+      .catch((error) => {return {...result, error}});
+  };
   
 export {createThing, getOneThing, modifyThing, deleteThing, getAllStuff};
